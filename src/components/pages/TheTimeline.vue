@@ -2,7 +2,7 @@
   <div class="mt-7">
     <ul>
       <TimelineItem
-        v-for="timelineItem in generateTimelineItems()"
+        v-for="timelineItem in timeLineItems"
         :key="timelineItem.hour"
         :timeline-item="timelineItem"
       />
@@ -12,5 +12,11 @@
 
 <script setup>
 import TimelineItem from '../TimelineItem.vue'
-import { generateTimelineItems } from '../functions'
+
+const { timeLineItems } = defineProps({
+  timeLineItems: {
+    type: Array,
+    required: true
+  }
+})
 </script>

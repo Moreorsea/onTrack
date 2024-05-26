@@ -4,11 +4,12 @@ import TheNav from './components/TheNav.vue'
 import TheTimeLine from './components/pages/TheTimeline.vue'
 import TheActivities from './components/pages/TheActivities.vue'
 import TheProgress from './components/pages/TheProgress.vue'
-import { normilazePageHash } from './components/functions'
+import { normilazePageHash, generateTimelineItems } from './components/functions'
 import { PAGE_TIMELINES, PAGE_ACTIVITIES, PAGE_PROGRESS } from './components/constants'
 import { ref } from 'vue'
 
 const currentPage = ref(normilazePageHash())
+const timeLineItems = generateTimelineItems()
 
 function goTo(page) {
   currentPage.value = page
@@ -18,7 +19,7 @@ function goTo(page) {
 <template>
   <TheHeader @go-to-timeline="goTo(PAGE_TIMELINES)" @go-to-progress="goTo(PAGE_PROGRESS)" />
   <main class="flex flex-grow flex-col">
-    <TheTimeLine v-show="currentPage === PAGE_TIMELINES" />
+    <TheTimeLine :time-line-items="timeLineItems" v-show="currentPage === PAGE_TIMELINES" />
     <TheActivities v-show="currentPage === PAGE_ACTIVITIES" />
     <TheProgress v-show="currentPage === PAGE_PROGRESS" />
   </main>
