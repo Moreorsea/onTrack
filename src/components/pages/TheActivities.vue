@@ -1,28 +1,26 @@
 <template>
-  <div>
-    <ul class="divide-y">
+  <div class="flex flex-col grow">
+    <ul v-if="activities.length" class="divide-y grow">
       <ActivityItem
         v-for="activity in props.activities"
         :activity="activity"
-        :key="activity"
+        :key="activity.id"
         @delete="emit('deleteActivity', activity)"
+        @set-seconds-to-complete="setSecondsToComplete($event)"
       />
     </ul>
-    <form class="sticky bottom-[57px] flex gap-2 border-t bg-white p-4">
-      <input type="text" class="w-full rounded border px-4 text-xl" placeholder="Activity name" />
-      <BaseButton :type="BUTTON_TYPES.primary">
-        <PlusIcon class="h-8" />
-      </BaseButton>
-    </form>
+
+    <TheActivitiesEmptyState v-else />
+
+    <TheActivityForm @submit="emit('addActivity', $event)" />
   </div>
 </template>
 
 <script setup>
-import { PlusIcon } from '@heroicons/vue/24/outline'
 import ActivityItem from '../ActivityItem.vue'
 import { isActivityValid, validateActivities } from '../validators'
-import BaseButton from '../BaseButton.vue'
-import { BUTTON_TYPES } from '../constants'
+import TheActivityForm from '../TheActivityForm.vue'
+import TheActivitiesEmptyState from '../TheActivitiesEmptyState.vue'
 
 const props = defineProps({
   activities: {
@@ -32,7 +30,9 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits({
-  deleteActivity: isActivityValid
-})
+function setSecondsToComplete($event) {
+  emit('setSecondsToComplete', $event)
+}
+
+const emit = defineEmits(['deleteActivity', 'addActivity', 'setSecondsToComplete'])
 </script>

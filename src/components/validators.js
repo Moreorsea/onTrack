@@ -41,15 +41,19 @@ export function isNumberOrNull(value) {
 }
 
 export function isActivityValid(activity) {
-  return isNotEmptyString(activity)
+  return Object.keys(activity).length
 }
 
 export function validateActivities(activities) {
   return activities.every(isActivityValid)
 }
 
-function isSelectOptionValid({ value, label }) {
-  return isNumber(value) && isString(label)
+export function isSelectValueValid(select) {
+  return isNumberOrNull(select) || isNotEmptyString(select)
+}
+
+function isSelectOptionValid({ id, name }) {
+  return isString(id) && isString(name)
 }
 
 function isBetween(value, start, end) {

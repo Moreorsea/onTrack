@@ -4,15 +4,15 @@
       <BaseButton :type="BUTTON_TYPES.danger" @click="emit('delete')">
         <TrashIcon class="h-8" />
       </BaseButton>
-      <span class="truncate text-xl">{{ props.activity }}</span>
+      <span class="truncate text-xl">{{ props.activity.name }}</span>
     </div>
     <div>
       <BaseSelect
         class="font-mono"
-        placeholder="h:mm"
+        placeholder="hh:mm"
         :options="PERIOD_SELECT_OPTIONS"
-        :selected="secondsToComplete"
-        @select="updateSelect"
+        :selected="activity.secondsToComplete || null"
+        @select="setSecondsToComplete(activity, $event)"
       />
     </div>
   </li>
@@ -20,27 +20,21 @@
 
 <script setup>
 import { TrashIcon } from '@heroicons/vue/24/outline'
-import { ref } from 'vue'
 import BaseButton from './BaseButton.vue'
 import BaseSelect from './BaseSelect.vue'
 import { PERIOD_SELECT_OPTIONS, BUTTON_TYPES } from './constants'
-import { isActivityValid, isUndefined } from './validators'
+import { isUndefined, validateSelectOptions } from './validators'
 
 const props = defineProps({
   activity: {
-    type: String,
-    required: true,
-    validator: isActivityValid
+    type: Object,
+    required: true
   }
 })
 
-const emit = defineEmits({
-  delete: isUndefined
-})
-
-const secondsToComplete = ref(15)
-
-const updateSelect = (value) => {
-  secondsToComplete.value = value
+function setSecondsToComplete(activity, $event) {
+  emit('setSecondsToComplete', { activity, seconds: $event?.target?.value || null })
 }
+
+const emit = defineEmits(['delete', 'setSecondsToComplete'])
 </script>

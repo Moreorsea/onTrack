@@ -3,11 +3,13 @@
     <TimelineHour :hour="timelineItem.hour" />
 
     <BaseSelect
-      :selected="selectedActivityId"
+      :selected="timelineItem.activityId"
       :options="activitySelectOptions"
       placeholder="Rest"
-      @select="updateSelectedActivityId"
+      @select="selectActivity"
     />
+
+    <TimelineStopwatch :hour="timelineItem.hour" :seconds="timelineItem.activitySeconds" />
   </li>
 </template>
 
@@ -15,15 +17,17 @@
 import BaseSelect from '../components/BaseSelect.vue'
 import TimelineHour from '../components/TimelineHour.vue'
 import { isTimelineItemValid } from './validators'
-import { ref } from 'vue'
+import TimelineStopwatch from './TimelineStopwatch.vue'
 
-const selectedActivityId = ref(0)
-
-defineProps({
+const props = defineProps({
   timelineItem: {
     type: Object,
     required: true,
     validator: isTimelineItemValid
+  },
+  activities: {
+    required: true,
+    type: Array
   },
   activitySelectOptions: {
     required: true,
@@ -31,7 +35,13 @@ defineProps({
   }
 })
 
-const updateSelectedActivityId = (value) => {
-  selectedActivityId.value = value
+const emit = defineEmits(['selectActivity'])
+
+const selectActivity = ($event) => {
+  const id = $event?.target?.value || null
+  emit('selectActivity', {
+    timelineItem: props.timelineItem,
+    activity: props.activities.find((activity) => activity.id == id)
+  })
 }
 </script>

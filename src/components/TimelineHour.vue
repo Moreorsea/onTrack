@@ -8,8 +8,7 @@ import { isTimelineItemValid } from './validators'
 const props = defineProps({
   hour: {
     type: Number,
-    required: true,
-    validator: isTimelineItemValid
+    required: true
   }
 })
 

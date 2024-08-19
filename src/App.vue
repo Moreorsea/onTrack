@@ -7,24 +7,53 @@ import TheProgress from './components/pages/TheProgress.vue'
 import {
   normilazePageHash,
   generateTimelineItems,
-  generateActivitySelectOptions
+  generateActivitySelectOptions,
+  generateActivities,
+  id
 } from './components/functions'
 import { PAGE_TIMELINES, PAGE_ACTIVITIES, PAGE_PROGRESS } from './components/constants'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const currentPage = ref(normilazePageHash())
-const timeLineItems = generateTimelineItems()
 
-const activities = ref(['Coding', 'Reading', 'Training'])
+const activities = ref(generateActivities())
 
-const activitySelectOptions = generateActivitySelectOptions(activities.value)
+const timeLineItems = ref(generateTimelineItems(activities.value))
+
+const activitySelectOptions = computed(() => generateActivitySelectOptions(activities.value))
 
 function goTo(page) {
   currentPage.value = page
 }
 
 function deleteActivity(activity) {
+  timeLineItems.value.forEach((timeline) => {
+    if (timeline.activityId === activity.id) {
+      timeline.activityId = null
+      timeline.activitySeconds = 0
+    }
+  })
+
   activities.value.splice(activities.value.indexOf(activity), 1)
+}
+
+function addActivity(activity) {
+  activities.value.push(activity)
+}
+
+function setTimelineItemActivity(item) {
+  const { timelineItem, activity } = item
+  timelineItem.activityId = activity?.id || null
+}
+
+function setSecondsToComplete(item) {
+  const { activity, seconds } = item
+
+  activities.value.forEach((activ) => {
+    if (activ.id == activity.id) {
+      activ.secondsToComplete = +seconds
+    }
+  })
 }
 </script>
 
@@ -35,11 +64,16 @@ function deleteActivity(activity) {
       :time-line-items="timeLineItems"
       v-show="currentPage === PAGE_TIMELINES"
       :activity-select-options="activitySelectOptions"
+      :activities="activities"
+      :current-page="currentPage"
+      @set-timeline-item-activity="setTimelineItemActivity"
     />
     <TheActivities
       v-show="currentPage === PAGE_ACTIVITIES"
       :activities="activities"
       @delete-activity="deleteActivity"
+      @add-activity="addActivity"
+      @set-seconds-to-complete="setSecondsToComplete"
     />
     <TheProgress v-show="currentPage === PAGE_PROGRESS" />
   </main>
