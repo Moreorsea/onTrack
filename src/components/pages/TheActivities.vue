@@ -5,6 +5,7 @@
         v-for="activity in props.activities"
         :activity="activity"
         :key="activity.id"
+        :timeline-items="timelineItems"
         @delete="emit('deleteActivity', activity)"
         @set-seconds-to-complete="setSecondsToComplete($event)"
       />
@@ -27,6 +28,10 @@ const props = defineProps({
     type: Array,
     required: true,
     validator: validateActivities
+  },
+  timelineItems: {
+    type: Array,
+    required: true
   }
 })
 

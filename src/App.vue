@@ -24,6 +24,10 @@ const activitySelectOptions = computed(() => generateActivitySelectOptions(activ
 
 function goTo(page) {
   currentPage.value = page
+
+  if (page != PAGE_TIMELINES) {
+    document.body.scrollIntoView()
+  }
 }
 
 function deleteActivity(activity) {
@@ -71,6 +75,7 @@ function setSecondsToComplete(item) {
     <TheActivities
       v-show="currentPage === PAGE_ACTIVITIES"
       :activities="activities"
+      :timeline-items="timeLineItems"
       @delete-activity="deleteActivity"
       @add-activity="addActivity"
       @set-seconds-to-complete="setSecondsToComplete"

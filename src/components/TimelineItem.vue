@@ -1,6 +1,6 @@
 <template>
   <li class="relative flex flex-col gap-2 border-t border-gray-200 py-10 px-4">
-    <TimelineHour :hour="timelineItem.hour" />
+    <TimelineHour :hour="timelineItem.hour" @scroll-to-hour="scrollToHour" />
 
     <BaseSelect
       :selected="timelineItem.activityId"
@@ -35,7 +35,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['selectActivity'])
+const emit = defineEmits(['selectActivity', 'scrollToHour'])
 
 const selectActivity = ($event) => {
   const id = $event?.target?.value || null
@@ -43,5 +43,9 @@ const selectActivity = ($event) => {
     timelineItem: props.timelineItem,
     activity: props.activities.find((activity) => activity.id == id)
   })
+}
+
+function scrollToHour({ hour }) {
+  emit('scrollToHour', hour)
 }
 </script>

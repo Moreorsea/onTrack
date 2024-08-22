@@ -1,5 +1,7 @@
 <template>
-  <a href="#" :class="classes">{{ formattedHour }}</a>
+  <a href="#" :class="classes" @click.prevent="emit('scrollToHour', { hour })">{{
+    formattedHour
+  }}</a>
 </template>
 
 <script setup>
@@ -11,6 +13,8 @@ const props = defineProps({
     required: true
   }
 })
+
+const emit = defineEmits(['scrollToHour'])
 
 const classes = [
   'absolute -top-4 left-1/2 -translate-x-1/2 rounded px-2 font-mono text-lg',

@@ -8,6 +8,7 @@
         :activity-select-options="activitySelectOptions"
         :activities="activities"
         @select-activity="getSelect"
+        @scroll-to-hour="scrollToCurrentTimelineItem"
         ref="timelineItemRefs"
       />
     </ul>
@@ -16,7 +17,6 @@
 
 <script setup>
 import TimelineItem from '../TimelineItem.vue'
-import { validateTimelineItems } from '../validators'
 import { nextTick, ref, watchPostEffect } from 'vue'
 import { MIDNIGHT_HOUR, PAGE_TIMELINES } from '../constants'
 
@@ -27,21 +27,24 @@ function getSelect({ timelineItem, activity }) {
 }
 
 const timelineItemRefs = ref([])
-const currentHour = new Date().getHours()
 
 watchPostEffect(async () => {
   if (props.currentPage === PAGE_TIMELINES) {
     await nextTick()
 
-    scrollToCurrentTimelineItem()
+    scrollToCurrentTimelineItem(null, false)
   }
 })
 
-function scrollToCurrentTimelineItem() {
-  if (currentHour === MIDNIGHT_HOUR) {
+function scrollToCurrentTimelineItem(hour, isSmooth = true) {
+  hour ??= new Date().getHours()
+
+  if (hour === MIDNIGHT_HOUR) {
     document.body.scrollIntoView()
   } else {
-    timelineItemRefs.value[currentHour - 1].$el.scrollIntoView({ behavior: 'smooth' })
+    timelineItemRefs.value[hour - 1].$el.scrollIntoView({
+      behavior: isSmooth ? 'smooth' : 'instant'
+    })
   }
 }
 

@@ -23,8 +23,10 @@ export function normilazePageHash() {
 export function generateTimelineItems(activities) {
   return [...Array(HOURS_IN_DAY).keys()].map((hour) => ({
     hour,
-    activityId: hour % 4 === 0 ? null : activities[hour % 2].id,
-    activitySeconds: hour % 4 === 0 ? 0 : (15 * SECONDS_IN_MINUTE * hour) % SECONDS_IN_HOUR
+    activityId: [0, 1, 2, 3, 4].includes(hour) ? activities[hour % 3].id : null,
+    activitySeconds: [0, 1, 2, 3, 4].includes(hour) ? hour * 600 : 0
+    // activityId: hour % 4 === 0 ? null : activities[hour % 2].id,
+    // activitySeconds: hour % 4 === 0 ? 0 : (15 * SECONDS_IN_MINUTE * hour) % SECONDS_IN_HOUR
   }))
 }
 
@@ -73,4 +75,12 @@ export function formatSeconds(seconds) {
   const utc = date.toUTCString()
 
   return utc.substring(utc.indexOf(':') - 2, utc.indexOf(':') + 6)
+}
+
+export function getTotalActivitySeconds(activity, timelineItems) {
+  const items = timelineItems
+    .filter((item) => item.activityId === activity.id)
+    .reduce((totalSeconds, item) => Math.round(totalSeconds + item.activitySeconds), 0)
+
+  return items
 }
