@@ -9,10 +9,10 @@ import {
   generateTimelineItems,
   generateActivitySelectOptions,
   generateActivities,
-  id
+  generatePeriodSelectOptions
 } from './components/functions'
 import { PAGE_TIMELINES, PAGE_ACTIVITIES, PAGE_PROGRESS } from './components/constants'
-import { ref, computed } from 'vue'
+import { ref, computed, provide } from 'vue'
 
 const currentPage = ref(normilazePageHash())
 
@@ -45,20 +45,30 @@ function addActivity(activity) {
   activities.value.push(activity)
 }
 
-function setTimelineItemActivity(item) {
-  const { timelineItem, activity } = item
-  timelineItem.activityId = activity?.id || null
+function setTimelineItemActivity(timelineItem, activityId) {
+  timelineItem.activityId = activityId
 }
 
-function setSecondsToComplete(item) {
-  const { activity, seconds } = item
-
+function setSecondsToComplete(activity, seconds) {
   activities.value.forEach((activ) => {
     if (activ.id == activity.id) {
       activ.secondsToComplete = +seconds
     }
   })
 }
+
+function updateSeconds(timeline, seconds) {
+  timeline.activitySeconds += seconds
+}
+
+provide('updateSeconds', updateSeconds)
+provide('timelineItems', timeLineItems.value)
+provide('activitySelectOptions', activitySelectOptions.value)
+provide('periodSelectOptions', generatePeriodSelectOptions())
+provide('setTimelineItemActivity', setTimelineItemActivity)
+provide('setSecondsToComplete', setSecondsToComplete)
+provide('addActivity', addActivity)
+provide('deleteActivity', deleteActivity)
 </script>
 
 <template>
@@ -67,19 +77,9 @@ function setSecondsToComplete(item) {
     <TheTimeLine
       :time-line-items="timeLineItems"
       v-show="currentPage === PAGE_TIMELINES"
-      :activity-select-options="activitySelectOptions"
-      :activities="activities"
       :current-page="currentPage"
-      @set-timeline-item-activity="setTimelineItemActivity"
     />
-    <TheActivities
-      v-show="currentPage === PAGE_ACTIVITIES"
-      :activities="activities"
-      :timeline-items="timeLineItems"
-      @delete-activity="deleteActivity"
-      @add-activity="addActivity"
-      @set-seconds-to-complete="setSecondsToComplete"
-    />
+    <TheActivities v-show="currentPage === PAGE_ACTIVITIES" :activities="activities" />
     <TheProgress v-show="currentPage === PAGE_PROGRESS" />
   </main>
   <TheNav :current-page="currentPage" @navigate="goTo($event)" />

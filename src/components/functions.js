@@ -23,8 +23,8 @@ export function normilazePageHash() {
 export function generateTimelineItems(activities) {
   return [...Array(HOURS_IN_DAY).keys()].map((hour) => ({
     hour,
-    activityId: [0, 1, 2, 3, 4].includes(hour) ? activities[hour % 3].id : null,
-    activitySeconds: [0, 1, 2, 3, 4].includes(hour) ? hour * 600 : 0
+    activityId: [0, 1, 2, 3, 4, 5, 6, 7].includes(hour) ? activities[hour % 3].id : null,
+    activitySeconds: [0, 1, 2, 3, 4, 5, 6, 7].includes(hour) ? hour * 600 : 0
     // activityId: hour % 4 === 0 ? null : activities[hour % 2].id,
     // activitySeconds: hour % 4 === 0 ? 0 : (15 * SECONDS_IN_MINUTE * hour) % SECONDS_IN_HOUR
   }))
@@ -58,7 +58,11 @@ export function generatePeriodSelectOptionsLabel(minute) {
   return `${hour}:${minutes}`
 }
 
-export function generatePeriodSelectOptions(periods) {
+export function generatePeriodSelectOptions() {
+  const periods = [
+    15, 30, 45, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 390, 420, 450, 480
+  ]
+
   return periods.map((minute) => {
     return {
       value: minute * SECONDS_IN_MINUTE,
