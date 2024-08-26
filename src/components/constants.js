@@ -13,11 +13,20 @@ export const BUTTON_TYPES = {
   warning: 'warning'
 }
 
-export const NAV_ITEMS = {
-  [PAGE_TIMELINES]: ClockIcon,
-  [PAGE_ACTIVITIES]: ListBulletIcon,
-  [PAGE_PROGRESS]: ChartBarIcon
-}
+export const NAV_ITEMS = [
+  {
+    page: PAGE_TIMELINES,
+    icon: ClockIcon
+  },
+  {
+    page: PAGE_ACTIVITIES,
+    icon: ListBulletIcon
+  },
+  {
+    page: PAGE_PROGRESS,
+    icon: ChartBarIcon
+  }
+]
 
 export const HOURS_IN_DAY = 24
 export const MIDNIGHT_HOUR = 0

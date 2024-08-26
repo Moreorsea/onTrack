@@ -1,7 +1,7 @@
 <template>
   <li class="flex flex-col gap-2 p-4">
     <div class="flex items-center gap-2">
-      <BaseButton :type="BUTTON_TYPES.danger" @click="deleteActivity($event)">
+      <BaseButton :type="BUTTON_TYPES.danger" @click="deleteActivity(props.activity)">
         <TrashIcon class="h-8" />
       </BaseButton>
       <span class="truncate text-xl">{{ props.activity.name }}</span>
