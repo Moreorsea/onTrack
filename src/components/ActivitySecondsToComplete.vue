@@ -5,8 +5,9 @@
 <script setup>
 import { formatSeconds, getTotalActivitySeconds } from './functions'
 import { computed, inject } from 'vue'
+import { timelineItemsKey } from '../keys'
 
-const timelineItems = inject('timelineItems')
+const timelineItems = inject(timelineItemsKey)
 
 const props = defineProps({
   activity: {
@@ -20,8 +21,7 @@ const colorClasses = computed(() =>
 )
 
 const classes = computed(
-  () =>
-    `flex items-center rounded bg-purple-100 px-2 font-mono text-xl text-purple-600 ${colorClasses.value}`
+  () => `flex items-center rounded px-2 font-mono text-xl ${colorClasses.value}`
 )
 
 const sign = computed(() => (secondsDiff.value >= 0 ? '+' : '-'))

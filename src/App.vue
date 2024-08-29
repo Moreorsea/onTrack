@@ -12,7 +12,8 @@ import {
 } from './components/functions'
 import { currentPage } from './router'
 import { PAGE_TIMELINES, PAGE_ACTIVITIES, PAGE_PROGRESS } from './components/constants'
-import { ref, computed, provide } from 'vue'
+import * as keys from './keys'
+import { ref, computed, provide, readonly } from 'vue'
 
 const activities = ref(generateActivities())
 
@@ -51,14 +52,14 @@ function updateSeconds(timeline, seconds) {
   timeline.activitySeconds += seconds
 }
 
-provide('updateSeconds', updateSeconds)
-provide('timelineItems', timeLineItems.value)
-provide('activitySelectOptions', activitySelectOptions.value)
-provide('periodSelectOptions', generatePeriodSelectOptions())
-provide('setTimelineItemActivity', setTimelineItemActivity)
-provide('setSecondsToComplete', setSecondsToComplete)
-provide('addActivity', addActivity)
-provide('deleteActivity', deleteActivity)
+provide(keys.updateSecondsKey, updateSeconds)
+provide(keys.timelineItemsKey, readonly(timeLineItems.value))
+provide(keys.activitySelectOptionsKey, readonly(activitySelectOptions.value))
+provide(keys.periodSelectOptionsKey, readonly(generatePeriodSelectOptions()))
+provide(keys.setTimelineItemActivityKey, setTimelineItemActivity)
+provide(keys.setSecondsToCompleteKey, setSecondsToComplete)
+provide(keys.addActivityKey, addActivity)
+provide(keys.deleteActivityKey, deleteActivity)
 </script>
 
 <template>

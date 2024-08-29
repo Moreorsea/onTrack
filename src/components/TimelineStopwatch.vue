@@ -26,6 +26,7 @@ import BaseButton from './BaseButton.vue'
 import { BUTTON_TYPES, MILISECONDS_IN_SECOND } from './constants'
 import { formatSeconds } from './functions'
 import { ref, inject } from 'vue'
+import { updateSecondsKey } from '../keys'
 
 const props = defineProps({
   timelineItem: {
@@ -34,7 +35,7 @@ const props = defineProps({
   }
 })
 
-const updateSeconds = inject('updateSeconds')
+const updateSeconds = inject(updateSecondsKey)
 
 const seconds = ref(props.timelineItem.activitySeconds)
 const isRunning = ref(false)

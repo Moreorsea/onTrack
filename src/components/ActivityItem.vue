@@ -27,10 +27,11 @@ import BaseSelect from './BaseSelect.vue'
 import ActivitySecondsToComplete from './ActivitySecondsToComplete.vue'
 import { BUTTON_TYPES } from './constants'
 import { inject } from 'vue'
+import { periodSelectOptionsKey, setSecondsToCompleteKey, deleteActivityKey } from '../keys'
 
-const periodSelectOptions = inject('periodSelectOptions')
-const setSecondsToComplete = inject('setSecondsToComplete')
-const deleteActivity = inject('deleteActivity')
+const periodSelectOptions = inject(periodSelectOptionsKey)
+const setSecondsToComplete = inject(setSecondsToCompleteKey)
+const deleteActivity = inject(deleteActivityKey)
 
 const props = defineProps({
   activity: {
