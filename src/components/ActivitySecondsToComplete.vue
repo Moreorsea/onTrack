@@ -3,11 +3,9 @@
 </template>
 
 <script setup>
-import { formatSeconds, getTotalActivitySeconds } from './functions'
-import { computed, inject } from 'vue'
-import { timelineItemsKey } from '../keys'
-
-const timelineItems = inject(timelineItemsKey)
+import { formatSeconds } from './functions'
+import { getTotalActivitySeconds } from '../timelineItems'
+import { computed } from 'vue'
 
 const props = defineProps({
   activity: {
@@ -27,6 +25,6 @@ const classes = computed(
 const sign = computed(() => (secondsDiff.value >= 0 ? '+' : '-'))
 
 const secondsDiff = computed(
-  () => getTotalActivitySeconds(props.activity, timelineItems) - props.activity.secondsToComplete
+  () => getTotalActivitySeconds(props.activity) - props.activity.secondsToComplete
 )
 </script>

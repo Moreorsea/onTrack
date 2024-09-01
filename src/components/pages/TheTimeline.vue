@@ -17,6 +17,8 @@ import TimelineItem from '../TimelineItem.vue'
 import { nextTick, ref, watchPostEffect } from 'vue'
 import { MIDNIGHT_HOUR, PAGE_TIMELINES } from '../constants'
 import { currentPage } from '../../router'
+import { currentHour } from '../functions'
+import { timeLineItems } from '../../timelineItems'
 
 const timelineItemRefs = ref([])
 
@@ -29,17 +31,10 @@ watchPostEffect(async () => {
 })
 
 function scrollToCurrentTimelineItem(hour, isSmooth = true) {
-  hour ??= new Date().getHours()
+  hour ??= currentHour()
 
   const el = hour === MIDNIGHT_HOUR ? document.body : timelineItemRefs.value[hour - 1].$el
 
   el.scrollIntoView({ behavior: isSmooth ? 'smooth' : 'instant' })
 }
-
-const props = defineProps({
-  timeLineItems: {
-    type: Array,
-    required: true
-  }
-})
 </script>

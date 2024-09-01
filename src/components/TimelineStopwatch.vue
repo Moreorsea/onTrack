@@ -24,9 +24,9 @@
 import { ArrowPathIcon, PauseIcon, PlayIcon } from '@heroicons/vue/24/outline'
 import BaseButton from './BaseButton.vue'
 import { BUTTON_TYPES, MILISECONDS_IN_SECOND } from './constants'
-import { formatSeconds } from './functions'
-import { ref, inject } from 'vue'
-import { updateSecondsKey } from '../keys'
+import { formatSeconds, currentHour } from './functions'
+import { ref } from 'vue'
+import { updateSeconds } from '@/timelineItems'
 
 const props = defineProps({
   timelineItem: {
@@ -35,11 +35,10 @@ const props = defineProps({
   }
 })
 
-const updateSeconds = inject(updateSecondsKey)
 
 const seconds = ref(props.timelineItem.activitySeconds)
 const isRunning = ref(false)
-const date = new Date().getHours()
+const date = currentHour()
 
 function start() {
   isRunning.value = setInterval(() => {
