@@ -6,8 +6,6 @@ import TheActivities from './components/pages/TheActivities.vue'
 import TheProgress from './components/pages/TheProgress.vue'
 import { currentPage } from './router'
 import { PAGE_TIMELINES, PAGE_ACTIVITIES, PAGE_PROGRESS } from './components/constants'
-import * as keys from './keys'
-import { ref, readonly } from 'vue'
 </script>
 
 <template>

@@ -22,7 +22,7 @@ export function resetTimelineItemActivities(activity) {
 }
 
 export function getTotalActivitySeconds(activity) {
-  const items = timelineItems.value
+  const items = timeLineItems.value
     .filter((item) => item.activityId === activity.id)
     .reduce((totalSeconds, item) => Math.round(totalSeconds + item.activitySeconds), 0)
   return items
