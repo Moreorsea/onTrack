@@ -1,6 +1,6 @@
 <script setup>
 import BaseButton from './BaseButton.vue'
-import { PlusIcon } from '@heroicons/vue/24/outline'
+import BaseIcon from './BaseIcon.vue'
 import { nextTick, ref } from 'vue'
 import { id } from './functions'
 import { addActivity } from '@/activities'
@@ -31,7 +31,7 @@ async function submit() {
       v-model="activity"
     />
     <BaseButton :disabled="!activity.trim()">
-      <PlusIcon class="h-8" />
+      <BaseIcon name="Plus" />
     </BaseButton>
   </form>
 </template>

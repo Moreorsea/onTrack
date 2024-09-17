@@ -1,12 +1,12 @@
 <template>
   <li class="relative flex flex-col gap-2 border-t border-gray-200 py-10 px-4">
-    <TimelineHour :hour="timelineItem.hour" @scroll-to-hour="scrollToHour" />
+    <TimelineHour :hour="timelineItem.hour" />
 
     <BaseSelect
       :selected="timelineItem.activityId"
       :options="activitySelectOptions"
       placeholder="Rest"
-      @select="setTimelineItemActivity(timelineItem, $event)"
+      @select="updateTimelineItem(timelineItem, { activityId: $event })"
     />
 
     <TimelineStopwatch :timeline-item="timelineItem" />
@@ -19,7 +19,7 @@ import TimelineHour from '../components/TimelineHour.vue'
 import { isTimelineItemValid } from './validators'
 import TimelineStopwatch from './TimelineStopwatch.vue'
 import { activitySelectOptions } from '@/activities'
-import { setTimelineItemActivity } from '@/timelineItems'
+import { updateTimelineItem } from '@/timelineItems'
 
 const props = defineProps({
   timelineItem: {
@@ -28,10 +28,4 @@ const props = defineProps({
     validator: isTimelineItemValid
   }
 })
-
-const emit = defineEmits(['scrollToHour'])
-
-function scrollToHour({ hour }) {
-  emit('scrollToHour', hour)
-}
 </script>

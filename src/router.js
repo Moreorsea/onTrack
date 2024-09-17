@@ -1,6 +1,15 @@
-import { PAGE_TIMELINES } from './components/constants'
 import { ref } from 'vue'
 import { NAV_ITEMS } from './components/constants'
+import { PAGE_TIMELINES, PAGE_ACTIVITIES, PAGE_PROGRESS } from './components/constants'
+import TheTimeLine from './components/pages/TheTimeline.vue'
+import TheActivities from './components/pages/TheActivities.vue'
+import TheProgress from './components/pages/TheProgress.vue'
+
+export const routes = {
+  [PAGE_TIMELINES]: TheTimeLine,
+  [PAGE_ACTIVITIES]: TheActivities,
+  [PAGE_PROGRESS]: TheProgress
+}
 
 export function isPageValid(page) {
   return Object.keys(NAV_ITEMS).includes(page)

@@ -1,14 +1,14 @@
 <template>
   <div class="flex gap-2">
-    <BaseButton @click="select(null)" :type="BUTTON_TYPES.default">
-      <XMarkIcon class="h-8" />
+    <BaseButton @click="selectValue(null)" :type="BUTTON_TYPES.default">
+      <BaseIcon name="XMark" />
     </BaseButton>
 
     <select
       name=""
       id=""
       class="w-full truncate rounded bg-gray-100 py-1 px-2 text-2xl"
-      @change="select($event)"
+      @change="selectValue($event)"
     >
       <option :selected="isNotSelected" disabled value="">{{ placeholder }}</option>
       <option
@@ -25,8 +25,8 @@
 
 <script setup>
 import BaseButton from '../components/BaseButton.vue'
-import { XMarkIcon } from '@heroicons/vue/24/outline'
-import { validateSelectOptions, isUndefinedOrNull, isSelectValueValid } from './validators'
+import BaseIcon from '../components/BaseIcon.vue'
+import { isUndefinedOrNull } from './validators'
 import { computed } from 'vue'
 import { BUTTON_TYPES } from './constants'
 import { normalizeSelectValue } from './functions'
@@ -49,7 +49,7 @@ const isNotSelected = computed(() => {
   return isUndefinedOrNull(props.selected)
 })
 
-function select(value) {
-  emits('select', normalizeSelectValue(value))
+function selectValue(value) {
+  emits('select', normalizeSelectValue(value ? value.target.value : null))
 }
 </script>

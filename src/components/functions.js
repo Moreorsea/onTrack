@@ -2,7 +2,7 @@ import { MILISECONDS_IN_SECOND, SECONDS_IN_MINUTE, MINUTES_IN_HOUR } from '../co
 import { isNull } from './validators'
 
 export function id() {
-  return Date.now().toString() + Math.random().toString()
+  return Math.random().toString()
 }
 
 export function normalizeSelectValue(value) {

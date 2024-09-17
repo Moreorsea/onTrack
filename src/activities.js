@@ -1,6 +1,7 @@
 import { id } from './components/functions'
 import { computed, ref } from 'vue'
 import { SECONDS_IN_HOUR } from '../src/components/constants'
+import { getTotalActivitySeconds } from './timelineItems'
 
 export const activities = ref(generateActivities())
 
@@ -15,14 +16,20 @@ export function deleteActivity(activity) {
 }
 
 export function setSecondsToComplete(activity, seconds) {
-  activity.secondsToComplete = seconds ? seconds.target.value : 0
+  activity.secondsToComplete = seconds
+}
+
+export function getActivityProgress(activity) {
+  const activitySeconds = getTotalActivitySeconds(activity)
+
+  return Math.floor((activitySeconds * 100) / activity.secondsToComplete)
 }
 
 function generateActivities() {
   return ['Coding', 'Training', 'Reading', 'Sleeping'].map((name, hours) => ({
     id: id(),
     name,
-    secondsToComplete: hours * SECONDS_IN_HOUR
+    secondsToComplete: 15 * 60 //hours * SECONDS_IN_HOUR
   }))
 }
 

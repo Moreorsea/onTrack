@@ -1,11 +1,12 @@
 <template>
-  <a href="#" :class="classes" @click.prevent="emit('scrollToHour', { hour })">{{
+  <a href="#" :class="classes" @click.prevent="scrollToCurrentTimelineItem(hour)">{{
     formattedHour
   }}</a>
 </template>
 
 <script setup>
 import { currentHour } from './functions'
+import { scrollToCurrentTimelineItem } from '@/timelineItems'
 
 const props = defineProps({
   hour: {
@@ -13,8 +14,6 @@ const props = defineProps({
     required: true
   }
 })
-
-const emit = defineEmits(['scrollToHour'])
 
 const classes = [
   'absolute -top-4 left-1/2 -translate-x-1/2 rounded px-2 font-mono text-lg',

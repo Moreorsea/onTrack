@@ -2,7 +2,7 @@
   <li class="flex flex-col gap-2 p-4">
     <div class="flex items-center gap-2">
       <BaseButton :type="BUTTON_TYPES.danger" @click="deleteAndResetActivity(props.activity)">
-        <TrashIcon class="h-8" />
+        <BaseIcon name="Trash" />
       </BaseButton>
       <span class="truncate text-xl">{{ props.activity.name }}</span>
     </div>
@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { TrashIcon } from '@heroicons/vue/24/outline'
+import BaseIcon from './BaseIcon.vue'
 import BaseButton from './BaseButton.vue'
 import BaseSelect from './BaseSelect.vue'
 import ActivitySecondsToComplete from './ActivitySecondsToComplete.vue'
