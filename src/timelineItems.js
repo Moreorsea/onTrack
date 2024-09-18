@@ -1,4 +1,3 @@
-import { activities } from './activities'
 import { ref } from 'vue'
 import { HOURS_IN_DAY, MIDNIGHT_HOUR } from '../src/components/constants'
 import { currentHour } from './components/functions'
@@ -16,7 +15,7 @@ export function resetTimelineItemActivities(activity) {
     .forEach((timeline) => updateTimelineItem(timeline, { activityId: null, activitySeconds: 0 }))
 }
 
-export function getTotalActivitySeconds(activity) {
+export function calculateTrackedActivitySeconds(activity) {
   const items = timeLineItems.value
     .filter((item) => item.activityId == activity.id)
     .reduce((totalSeconds, item) => Math.round(totalSeconds + item.activitySeconds), 0)

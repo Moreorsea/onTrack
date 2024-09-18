@@ -1,11 +1,6 @@
 <template>
   <ul class="divide-y">
-    <ProgressItem
-      v-for="(activity, index) in activities"
-      :key="activity.id"
-      :index="index"
-      :activity="activity"
-    />
+    <ProgressItem v-for="activity in activities" :key="activity.id" :activity="activity" />
   </ul>
 </template>
 
