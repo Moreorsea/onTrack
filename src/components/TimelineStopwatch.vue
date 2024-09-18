@@ -25,8 +25,7 @@ import BaseIcon from './BaseIcon.vue'
 import BaseButton from './BaseButton.vue'
 import { BUTTON_TYPES, MILISECONDS_IN_SECOND } from './constants'
 import { formatSeconds, currentHour } from './functions'
-import { ref, watch } from 'vue'
-import { updateTimelineItem } from '@/timelineItems'
+import { useStopWatch } from '@/composables/stopWatch'
 
 const props = defineProps({
   timelineItem: {
@@ -35,42 +34,7 @@ const props = defineProps({
   }
 })
 
-const seconds = ref(props.timelineItem.activitySeconds)
-const isRunning = ref(false)
 const date = currentHour()
 
-const temp = 120
-
-watch(
-  () => props.timelineItem.activityId,
-  () => {
-    updateTimelineItem(props.timelineItem, { activitySeconds: seconds.value })
-  }
-)
-
-function start() {
-  isRunning.value = setInterval(() => {
-    updateTimelineItem(props.timelineItem, {
-      activitySeconds: props.timelineItem.activitySeconds + temp
-    })
-
-    seconds.value += temp
-  }, MILISECONDS_IN_SECOND)
-}
-
-function stop() {
-  clearInterval(isRunning.value)
-
-  isRunning.value = false
-}
-
-function reset() {
-  stop()
-
-  updateTimelineItem(props.timelineItem, {
-    activitySeconds: props.timelineItem.activitySeconds - seconds.value
-  })
-
-  seconds.value = 0
-}
+const { start, stop, reset, seconds, isRunning } = useStopWatch(props.timelineItem)
 </script>
