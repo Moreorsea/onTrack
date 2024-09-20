@@ -1,6 +1,6 @@
 import { id } from './components/functions'
 import { computed, ref } from 'vue'
-import { SECONDS_IN_HOUR } from '../src/components/constants'
+import { SECONDS_IN_HOUR, HUNDRED_PERCENT } from '../src/components/constants'
 
 export const activities = ref(generateActivities())
 
@@ -19,8 +19,19 @@ export function setSecondsToComplete(activity, seconds) {
 }
 
 export function calculateActivityCompletionPercentage({ secondsToComplete }, trackedSeconds) {
-  return Math.floor((trackedSeconds * 100) / secondsToComplete)
+  return Math.floor((trackedSeconds * HUNDRED_PERCENT) / secondsToComplete)
 }
+
+export function calculateCompletionPercentage(totalTrackedSeconds) {
+  return Math.floor((totalTrackedSeconds * HUNDRED_PERCENT) / totalActivitySecondsToComplete.value)
+}
+
+const totalActivitySecondsToComplete = computed(() => {
+  return activities.value
+    .filter((activity) => activity.secondsToComplete)
+    .map(({ secondsToComplete }) => secondsToComplete)
+    .reduce((total, seconds) => total + seconds, 0)
+})
 
 function generateActivities() {
   return ['Coding', 'Training', 'Reading', 'Sleeping'].map((name, hours) => ({

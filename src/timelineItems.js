@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { HOURS_IN_DAY, MIDNIGHT_HOUR } from '../src/components/constants'
 import { currentHour } from './components/functions'
+import { activities } from './activities'
 
 export const timeLineItems = ref(generateTimelineItems())
 export const timelineItemRefs = ref([])

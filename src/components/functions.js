@@ -53,3 +53,13 @@ export function getProgressColorClass(percentage) {
 
   return 'bg-green-500'
 }
+
+export function calculateSecondsSinceMidnight() {
+  const now = new Date()
+
+  return (
+    SECONDS_IN_MINUTE * MINUTES_IN_HOUR * now.getHours() +
+    SECONDS_IN_MINUTE * now.getMinutes() +
+    now.getSeconds()
+  )
+}
